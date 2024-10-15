@@ -9,10 +9,11 @@ ENV JUPYTER_PATH=${HOME}/.local/share/jupyter/
 ENV JUPYTERLAB_DIR=${HOME}/.local/share/jupyter/lab/
 ENV PATH "${HOME}/.local/bin:${PATH}"
 
-RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+RUN pacman -Syu --noconfirm archlinux-keyring
+RUN pacman-key --init
+RUN pacman-key --populate archlinux
 
-
-RUN pacman -Syu --noconfirm --needed base-devel lib32-zeromq git \
+RUN pacman -Syu --noconfirm --needed base-devel zeromq git \
       npm jupyterlab jupyter_console
 
 RUN pacman -Syu --noconfirm --needed sbcl gnuplot maxima maxima-sbcl
